@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static org.nka.notchplease.Notchplease.getScaledNotchHeight;
+import static org.nka.notchplease.Notchplease.shiftNestedStringWidgets;
 
 @Mixin(OptionsSubScreen.class)
 public class OptionsSubScreenMixin {
@@ -32,6 +33,9 @@ public class OptionsSubScreenMixin {
             if (element instanceof StringWidget)
                 element.setY(element.getY() + notchHeight);
         });
+        // 26.2: the Video Settings title is not a direct child of the layout anymore
+        if (((Object) this).getClass().getSimpleName().contains("VideoSettings"))
+            shiftNestedStringWidgets(this.layout, notchHeight, true);
         if (list != null) {
             list.setY(list.getY() + notchHeight);
             list.setHeight(list.getHeight() - notchHeight);

@@ -5,6 +5,8 @@ import com.sun.jna.Native;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.Layout;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWNativeCocoa;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -31,6 +33,18 @@ public class Notchplease implements ClientModInitializer {
     }
 
     public static ArrayList<Integer> resolutionHeights = new ArrayList<>();
+
+    // Shifts StringWidgets (titles) that sit inside NESTED layouts. Direct children are skipped
+    // here because callers already handle those.
+    public static void shiftNestedStringWidgets(Layout layout, int dy, boolean skipDirect) {
+        layout.visitChildren(element -> {
+            if (element instanceof Layout nested) {
+                shiftNestedStringWidgets(nested, dy, false);
+            } else if (!skipDirect && element instanceof StringWidget) {
+                element.setY(element.getY() + dy);
+            }
+        });
+    }
 
     @Override
     public void onInitializeClient() {
