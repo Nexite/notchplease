@@ -2,7 +2,7 @@
 
 # Notch, Please!
 
-A simple Fabric mod for Minecraft 26.2 that aims to make *vanilla* UI elements fit better on Apple's notched MacBooks when in fullscreen mode.
+A simple Fabric mod for Minecraft 26.3 that aims to make *vanilla* UI elements fit better on Apple's notched MacBooks when in fullscreen mode.
 
 ![Modrinth Downloads](https://img.shields.io/badge/dynamic/json?labelColor=black&color=00AF5C&label=&suffix=%20downloads&query=downloads&url=https%3A%2F%2Fapi.modrinth.com%2Fv2%2Fproject%2FkCP4fDZJ&style=flat&logo=modrinth)
 ![CurseForge Downloads](https://cf.way2muchnoise.eu/full_1324958_downloads.svg)
@@ -26,9 +26,9 @@ Notch, Please! is designed specifically for MacBooks with display notches (M1 Pr
 
 ### 🔧 Usage
 
-Since macOS's default fullscreen mode doesn't allow the game to extend into the notched area, you'll first need to enable Fullscreen under **Options → Video Settings**.
+Since macOS's default fullscreen mode doesn't allow the game to extend into the notched area, you'll first need to enable both **Fullscreen** and **Exclusive Fullscreen** under **Options → Video Settings**.
 
-Then, make sure your screen resolution is set to something like `2560x1664` (not the notch-less `2560x1600`) to take full advantage of the available space.
+Then, make sure the **Exclusive Fullscreen Mode** is set to something like `2560x1664` (not the notch-less `2560x1600`) to take full advantage of the available space.
 
 Once that's set up, I recommend using [RenderScale](https://modrinth.com/mod/renderscale) to reduce your resolution to Retina levels (typically by half). This can significantly improve performance with little to no visible loss in quality on a MacBook display.
 

@@ -1,10 +1,9 @@
 package org.nka.notchplease.mixin.client.gui.components.toasts;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.toasts.SystemToast;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +18,7 @@ public class SystemToastMixin {
             method = "extractRenderState",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
             )
     )
     private void moveBackground(GuiGraphicsExtractor instance, RenderPipeline renderPipeline, Identifier location, int x, int y, int width, int height) {
@@ -31,30 +30,15 @@ public class SystemToastMixin {
         instance.blitSprite(renderPipeline, location, x, y + notchHeight, width, height);
     }
 
+    // 26.3: title and message lines are both drawn as FormattedCharSequences in extractTextLines
     @Redirect(
-            method = "extractRenderState",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"
-            )
-    )
-    private void moveTitle(GuiGraphicsExtractor instance, Font font, Component str, int x, int y, int color, boolean dropShadow) {
-        int notchHeight = getScaledNotchHeight();
-        if (notchHeight == -1) {
-            instance.text(font, str, x, y, color, dropShadow);
-            return;
-        }
-        instance.text(font, str, x, y + notchHeight, color, dropShadow);
-    }
-
-    @Redirect(
-            method = "extractRenderState",
+            method = "extractTextLines",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/util/FormattedCharSequence;IIIZ)V"
             )
     )
-    private void moveMessageLines(GuiGraphicsExtractor instance, Font font, FormattedCharSequence str, int x, int y, int color, boolean dropShadow) {
+    private void moveTextLines(GuiGraphicsExtractor instance, Font font, FormattedCharSequence str, int x, int y, int color, boolean dropShadow) {
         int notchHeight = getScaledNotchHeight();
         if (notchHeight == -1) {
             instance.text(font, str, x, y, color, dropShadow);

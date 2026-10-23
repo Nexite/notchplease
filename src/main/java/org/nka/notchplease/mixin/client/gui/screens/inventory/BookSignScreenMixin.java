@@ -62,23 +62,22 @@ public class BookSignScreenMixin {
             method = "extractRenderState",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;textWithWordWrap(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;textWithWordWrap(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)I"
             )
     )
-    private void redirectWrappedText(GuiGraphicsExtractor instance, Font font, FormattedText string, int x, int y, int width, int col, boolean dropShadow) {
+    private int redirectWrappedText(GuiGraphicsExtractor instance, Font font, FormattedText string, int x, int y, int width, int col, boolean dropShadow) {
         int notchHeight = getScaledNotchHeight();
         if (notchHeight == -1) {
-            instance.textWithWordWrap(font, string, x, y, width, col, dropShadow);
-            return;
+            return instance.textWithWordWrap(font, string, x, y, width, col, dropShadow);
         }
-        instance.textWithWordWrap(font, string, x, y + notchHeight, width, col, dropShadow);
+        return instance.textWithWordWrap(font, string, x, y + notchHeight, width, col, dropShadow);
     }
 
     @ModifyArg(
             method = "extractBackground",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
             ),
             index = 3
     )

@@ -28,7 +28,9 @@ public class RealmsMainScreenMixin {
 //                System.out.println("all: " + element + " " + element.getMessage());
                 if (!(element instanceof Button)
                         || element.getMessage().toString().contains("invites")
-                        || element.getMessage().toString().contains("news"))
+                        || element.getMessage().toString().contains("news")
+                        // 26.3: new "Join Realm" button in the header
+                        || element.getMessage().toString().contains("joinRealm"))
                 {
                     element.setY(element.getY() + notchHeight);
                     if (element instanceof ObjectSelectionList<?> list) {
